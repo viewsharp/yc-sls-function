@@ -1,4 +1,4 @@
-name: 'YC Function deploy'
+name: 'YC Function deploy (with storage mount support)'
 description: 'GitHub Action to deploy Serverless Function to Yandex Cloud.'
 author: 'Nikolay Matrosov'
 inputs:
