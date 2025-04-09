@@ -76,6 +76,22 @@ inputs:
     description: 'Minimum log level (trace, debug, info, warn, error, fatal)'
     default: ''
     required: false
+  mount-bucket-id:
+    description: 'Object Storage bucket id for mount'
+    default: ''
+    required: false
+  mount-bucket-path:
+    description: 'Path to the folder in the Object Storage bucket. Leave empty to mount the entire bucket'
+    default: ''
+    required: false
+  mount-point:
+    description: 'Mount point is used to create a directory where the bucket/folder will be mounted. It will be accessible at the path /function/storage/<mount-point>'
+    default: ''
+    required: false
+  mount-read-only:
+    description: 'Read-only mount mode. Default true'
+    default: 'true'
+    required: false
 
 
 outputs:

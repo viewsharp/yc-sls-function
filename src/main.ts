@@ -56,6 +56,10 @@ type ActionInputs = {
     logsDisabled: boolean
     logsGroupId: string
     logLevel: number
+    mountBucketId: string
+    mountBucketPath: string
+    mountPoint: string
+    mountReadOnly: boolean
 }
 
 async function uploadToS3(
@@ -154,7 +158,11 @@ async function run(): Promise<void> {
             tags: getMultilineInput('tags', { required: false }),
             logsDisabled: getBooleanInput('logs-disabled', { required: false }) || false,
             logsGroupId: getInput('logs-group-id', { required: false }),
-            logLevel: parseLogLevel(getInput('log-level', { required: false, trimWhitespace: true }))
+            logLevel: parseLogLevel(getInput('log-level', { required: false, trimWhitespace: true })),
+            mountBucketId: getInput('mount-bucket-id', { required: false, trimWhitespace: true }),
+            mountBucketPath: getInput('mount-bucket-path', { required: false, trimWhitespace: true }),
+            mountPoint: getInput('mount-point', { required: false, trimWhitespace: true }),
+            mountReadOnly: getBooleanInput('mount-read-only', { required: false, trimWhitespace: true })
         }
 
         info('Function inputs set')
@@ -219,7 +227,15 @@ async function createFunctionVersion(
                 disabled: inputs.logsDisabled,
                 logGroupId: inputs.logsGroupId,
                 minLevel: inputs.logLevel
-            }
+            },
+            storageMounts: [
+                {
+                    bucketId: inputs.mountBucketId,
+                    prefix: inputs.mountBucketPath,
+                    mountPointName: inputs.mountPoint,
+                    readOnly: inputs.mountReadOnly
+                }
+            ]
         })
 
         const functionService = session.client(serviceClients.FunctionServiceClient)
